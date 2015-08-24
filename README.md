@@ -1,2 +1,3 @@
-# telegram
-A library that implements the Telegram API
+# Installation
+Install guide follows.
+
