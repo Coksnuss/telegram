@@ -16,12 +16,15 @@ class TelegramBot
     private $handler;
 
 
-    public function __construct($token)
+    public function __construct($token, $asyncTimeout = 2, $tick = 0.01)
     {
-        $this->handler = new CurlMultiHandler();
+        $this->handler = new CurlMultiHandler([
+            'select_timeout' => $tick,
+        ]);
         $this->client = new HttpClient([
             'handler' => HandlerStack::create($this->handler),
-            'base_uri' => $this->getBaseUrl($token)
+            'base_uri' => $this->getBaseUrl($token),
+            'curl' => [CURLOPT_TIMEOUT_MS => $asyncTimeout * 1000],
         ]);
     }
 
@@ -31,6 +34,7 @@ class TelegramBot
     public function tick()
     {
         $this->handler->tick();
+        \GuzzleHttp\Promise\queue()->run();
     }
 
     /**
@@ -318,8 +322,6 @@ class TelegramBot
      */
     private function request($method, $params, $async)
     {
-        // TODO:
-        // $params = $this->encode($params);
         $promise = $this->queryAsync($method, $params);
 
         if ($async) {
