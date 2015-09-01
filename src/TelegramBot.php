@@ -218,6 +218,10 @@ class TelegramBot
         $params['chat_id'] = $chatId;
         $params['text'] = $text;
 
+        if (isset($params['reply_markup'])) {
+            $params['reply_markup'] = json_encode($params['reply_markup']);
+        }
+
         return $this->request('sendMessage', $params, $async);
     }
 
