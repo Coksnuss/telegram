@@ -61,6 +61,8 @@ class TelegramBot
      * Use this method to send text messages.
      *
      * Valid params:
+     * - parse_mode (String): Send 'Markdown', if you want Telegram apps to show bold, italic and inline URLs in your
+     *   bot's message.
      * - disable_web_page_preview (boolean): Disables link previews for links in this message
      * - reply_to_message_id (integer): If the message is a reply, ID of the original message
      * - reply_markup (ReplyKeyboardMarkup|ReplyKeyboardHide|ForceReply):
@@ -208,6 +210,16 @@ class TelegramBot
         return $this->_setWebhook($params, true);
     }
 
+    public function getFile($fileId)
+    {
+        return $this->_getFile($fileId, false);
+    }
+
+    public function getFileAsync($fileId)
+    {
+        return $this->_getFile($fileId, true);
+    }
+
     private function _getMe($async)
     {
         return $this->request('getMe', [], $async);
@@ -318,6 +330,15 @@ class TelegramBot
     private function _setWebhook($params, $async)
     {
         return $this->request('setWebhook', $params, $async);
+    }
+
+    private function _getFile($fileId)
+    {
+        $params = [
+            'file_id' => $fileId,
+        ];
+
+        return $this->request('getFile', $params, $async);
     }
 
     /**
