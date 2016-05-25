@@ -90,14 +90,14 @@ class TelegramBot
         return $this->_sendMessage($chatId, $text, $params, true);
     }
 
-    public function forwardMessage($chatId, $fromChatId, $messageId)
+    public function forwardMessage($chatId, $fromChatId, $messageId, $params = [])
     {
-        return $this->_forwardMessage($chatId, $fromChatId, $messageId, false);
+        return $this->_forwardMessage($chatId, $fromChatId, $messageId, $params, false);
     }
 
-    public function forwardMessageAsync($chatId, $fromChatId, $messageId)
+    public function forwardMessageAsync($chatId, $fromChatId, $messageId, $params = [])
     {
-        return $this->_forwardMessage($chatId, $fromChatId, $messageId, true);
+        return $this->_forwardMessage($chatId, $fromChatId, $messageId, $params, true);
     }
 
     public function sendPhoto($chatId, $photo, $params = [])
@@ -170,6 +170,26 @@ class TelegramBot
         return $this->_sendLocation($chatId, $latitude, $longitude, $params, true);
     }
 
+    public function sendVenue($chatId, $latitude, $longitude, $title, $address, $params = [])
+    {
+        return $this->_sendVenue($chatId, $latitude, $longitude, $title, $address, $params, false);
+    }
+
+    public function sendVenueAsync($chatId, $latitude, $longitude, $title, $address, $params = [])
+    {
+        return $this->_sendVenue($chatId, $latitude, $longitude, $title, $address, $params, true);
+    }
+
+    public function sendContact($chatId, $phoneNumber, $firstName, $params = [])
+    {
+        return $this->_sendContact($chatId, $phoneNumber, $firstName, $params, false);
+    }
+
+    public function sendContactAsync($chatId, $phoneNumber, $firstName, $params = [])
+    {
+        return $this->_sendContact($chatId, $phoneNumber, $firstName, $params, true);
+    }
+
     public function sendChatAction($chatId, $action)
     {
         return $this->_sendChatAction($chatId, $action, false);
@@ -220,6 +240,126 @@ class TelegramBot
         return $this->_getFile($fileId, true);
     }
 
+    public function kickChatMember($chatId, $userId)
+    {
+        return $this->_kickChatMember($chatId, $userId, false);
+    }
+
+    public function kickChatMemberAsync($chatId, $userId)
+    {
+        return $this->_kickChatMember($chatId, $userId, true);
+    }
+
+    public function leaveChat($chatId)
+    {
+        return $this->_leaveChat($chatId, false);
+    }
+
+    public function leaveChatAsync($chatId)
+    {
+        return $this->_leaveChat($chatId, true);
+    }
+
+    public function unbanChatMember($chatId, $userId)
+    {
+        return $this->_unbanChatMember($chatId, $userId, false);
+    }
+
+    public function unbanChatMemberAsync($chatId, $userId)
+    {
+        return $this->_unbanChatMember($chatId, $userId, true);
+    }
+
+    public function getChat($chatId)
+    {
+        return $this->_getChat($chatId, false);
+    }
+
+    public function getChatAsync($chatId)
+    {
+        return $this->_getChat($chatId, true);
+    }
+
+    public function getChatAdministrators($chatId)
+    {
+        return $this->_getChatAdministrators($chatId, false);
+    }
+
+    public function getChatAdministratorsAsync($chatId)
+    {
+        return $this->_getChatAdministrators($chatId, true);
+    }
+
+    public function getChatMembersCount($chatId)
+    {
+        return $this->_getChatMembersCount($chatId, false);
+    }
+
+    public function getChatMembersCountAsync($chatId)
+    {
+        return $this->_getChatMembersCount($chatId, true);
+    }
+
+    public function getChatMember($chatId, $userId)
+    {
+        return $this->_getChatMember($chatId, $userId, false);
+    }
+
+    public function getChatMemberAsync($chatId, $userId)
+    {
+        return $this->_getChatMember($chatId, $userId, true);
+    }
+
+    public function answerCallbackQuery($callbackQueryId, $params = [])
+    {
+        return $this->_answerCallbackQuery($callbackQueryId, $params, false);
+    }
+
+    public function answerCallbackQueryAsync($callbackQueryId, $params = [])
+    {
+        return $this->_answerCallbackQuery($callbackQueryId, $params, true);
+    }
+
+    public function editMessageText($text, $params = [])
+    {
+        return $this->_editMessageText($text, $params, false);
+    }
+
+    public function editMessageTextAsync($text, $params = [])
+    {
+        return $this->_editMessageText($text, $params, true);
+    }
+
+    public function editMessageCaption($params = [])
+    {
+        return $this->_editMessageCaption($params, false);
+    }
+
+    public function editMessageCaptionAsync($params = [])
+    {
+        return $this->_editMessageCaption($params, true);
+    }
+
+    public function editMessageReplyMarkup($params = [])
+    {
+        return $this->_editMessageReplyMarkup($params, false);
+    }
+
+    public function editMessageReplyMarkupAsync($params = [])
+    {
+        return $this->_editMessageReplyMarkup($params, true);
+    }
+
+    public function answerInlineQuery($inlineQueryId, $results, $params = [])
+    {
+        return $this->_answerInlineQuery($inlineQueryId, $results, $params, false);
+    }
+
+    public function answerInlineQueryAsync($inlineQueryId, $results, $params = [])
+    {
+        return $this->_answerInlineQuery($inlineQueryId, $results, $params, true);
+    }
+
     private function _getMe($async)
     {
         return $this->request('getMe', [], $async);
@@ -229,21 +369,16 @@ class TelegramBot
     {
         $params['chat_id'] = $chatId;
         $params['text'] = $text;
-
-        if (isset($params['reply_markup'])) {
-            $params['reply_markup'] = json_encode($params['reply_markup']);
-        }
+        $this->processReplyMarkup($params);
 
         return $this->request('sendMessage', $params, $async);
     }
 
-    private function _forwardMessage($chatId, $fromChatId, $messageId, $async)
+    private function _forwardMessage($chatId, $fromChatId, $messageId, $params, $async)
     {
-        $params = [
-            'chat_id' => $chatId,
-            'fromChatId' => $fromChatId,
-            'messageId' => $messageId,
-        ];
+        $params['chat_id'] = $chatId;
+        $params['from_chat_id'] = $fromChatId;
+        $params['message_id'] = $messageId;
 
         return $this->request('forwardMessage', $params, $async);
     }
@@ -252,6 +387,7 @@ class TelegramBot
     {
         $params['chat_id'] = $chatId;
         $params['photo'] = $photo;
+        $this->processReplyMarkup($params);
 
         return $this->request('sendPhoto', $params, $async);
     }
@@ -260,6 +396,7 @@ class TelegramBot
     {
         $params['chat_id'] = $chatId;
         $params['audio'] = $audio;
+        $this->processReplyMarkup($params);
 
         return $this->request('sendAudio', $params, $async);
     }
@@ -268,6 +405,7 @@ class TelegramBot
     {
         $params['chat_id'] = $chatId;
         $params['document'] = $document;
+        $this->processReplyMarkup($params);
 
         return $this->request('sendDocument', $params, $async);
     }
@@ -276,6 +414,7 @@ class TelegramBot
     {
         $params['chat_id'] = $chatId;
         $params['sticker'] = $sticker;
+        $this->processReplyMarkup($params);
 
         return $this->request('sendSticker', $params, $async);
     }
@@ -284,6 +423,7 @@ class TelegramBot
     {
         $params['chat_id'] = $chatId;
         $params['video'] = $video;
+        $this->processReplyMarkup($params);
 
         return $this->request('sendVideo', $params, $async);
     }
@@ -292,6 +432,7 @@ class TelegramBot
     {
         $params['chat_id'] = $chatId;
         $params['voice'] = $voice;
+        $this->processReplyMarkup($params);
 
         return $this->request('sendVoice', $params, $async);
     }
@@ -301,8 +442,31 @@ class TelegramBot
         $params['chat_id'] = $chatId;
         $params['latitude'] = $latitude;
         $params['longitude'] = $longitude;
+        $this->processReplyMarkup($params);
 
         return $this->request('sendLocation', $params, $async);
+    }
+
+    private function _sendVenue($chatId, $latitude, $longitude, $title, $address, $params, $async)
+    {
+        $params['chat_id'] = $chatId;
+        $params['latitude'] = $latitude;
+        $params['longitude'] = $longitude;
+        $parmas['title'] = $title;
+        $params['address'] = $address;
+        $this->processReplyMarkup($params);
+
+        return $this->request('sendVenue', $params, $async);
+    }
+
+    private function _sendContact($chatId, $phoneNumber, $firstName, $params, $async)
+    {
+        $params['chat_id'] = $chatId;
+        $params['phone_number'] = $phoneNumber;
+        $params['first_name'] = $firstName;
+        $this->processReplyMarkup($params);
+
+        return $this->request('sendContact', $params, $async);
     }
 
     private function _sendChatAction($chatId, $action, $async)
@@ -332,13 +496,139 @@ class TelegramBot
         return $this->request('setWebhook', $params, $async);
     }
 
-    private function _getFile($fileId)
+    private function _getFile($fileId, $async)
     {
         $params = [
             'file_id' => $fileId,
         ];
 
         return $this->request('getFile', $params, $async);
+    }
+
+    private function _kickChatMember($chatId, $userId, $async)
+    {
+        $params = [
+            'chat_id' => $chatId,
+            'user_id' => $userId,
+        ];
+
+        return $this->request('kickChatMember', $params, $async);
+    }
+
+    private function _leaveChat($chatId, $async)
+    {
+        $params = [
+            'chat_id' => $chatId,
+        ];
+
+        return $this->request('leaveChat', $params, $async);
+    }
+
+    private function _unbanChatMember($chatId, $userId, $async)
+    {
+        $params = [
+            'chat_id' => $chatId,
+            'user_id' => $userId,
+        ];
+
+        return $this->request('unbanChatMember', $params, $async);
+    }
+
+    private function _getChat($chatId, $async)
+    {
+        $params = [
+            'chat_id' => $chatId,
+        ];
+
+        return $this->request('getChat', $params, $async);
+    }
+
+    private function _getChatAdministrators($chatId, $async)
+    {
+        $params = [
+            'chat_id' => $chatId,
+        ];
+
+        return $this->request('getChatAdministrators', $params, $async);
+    }
+
+    private function _getChatMembersCount($chatId, $async)
+    {
+        $params = [
+            'chat_id' => $chatId,
+        ];
+
+        return $this->request('getChatMembersCount', $params, $async);
+    }
+
+    private function _getChatMember($chatId, $userId, $async)
+    {
+        $params = [
+            'chat_id' => $chatId,
+            'user_id' => $userId,
+        ];
+
+        return $this->request('getChatMember', $params, $async);
+    }
+
+    private function _answerCallbackQuery($callbackQueryId, $params, $async)
+    {
+        $params['callback_query_id'] = $callbackQueryId;
+
+        return $this->request('answerCallbackQuery', $params, $async);
+    }
+
+    private function _editMessageText($text, $params, $async)
+    {
+        $params['text'] = $text;
+        $this->processReplyMarkup($params);
+        $this->checkRequiredUpdateMessageParams($params);
+
+        return $this->request('editMessageText', $params, $async);
+    }
+
+    private function _editMessageCaption($params, $async)
+    {
+        $this->processReplyMarkup($params);
+        $this->checkRequiredUpdateMessageParams($params);
+
+        return $this->request('editMessageCaption', $params, $async);
+    }
+
+    private function _editMessageReplyMarkup($params, $async)
+    {
+        $this->processReplyMarkup($params);
+        $this->checkRequiredUpdateMessageParams($params);
+
+        return $this->request('editMessageReplyMarkup', $params, $async);
+    }
+
+    private function _answerInlineQuery($inlineQueryId, $results, $params, $async)
+    {
+        $params['inline_query_id'] = $inlineQueryId;
+        $params['results'] = $results;
+
+        return $this->request('answerInlineQuery', $params, $async);
+    }
+
+    private function processReplyMarkup(&$params)
+    {
+        if (isset($params['reply_markup'])) {
+            $params['reply_markup'] = json_encode($params['reply_markup']);
+        }
+    }
+
+    private function checkRequiredUpdateMessageParams($params)
+    {
+        if (
+            !isset($params['inline_message_id']) &&
+            (!isset($params['chat_id']) || !isset($params['message_id']))
+        ) {
+            throw new TelegramException(
+                'Missing required parameters. Either chat_id and message_id' .
+                ' or inline_message_id must be specified.'
+            );
+        }
     }
 
     /**
