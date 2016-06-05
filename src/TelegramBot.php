@@ -649,30 +649,20 @@ class TelegramBot
     private function queryAsync($method, $params)
     {
         $request = $this->client->postAsync($method, ['form_params' => $params]);
-        $promise = new Promise(
-            function ($unwrap = true) use ($request) {
-                try {
-                    $request->wait($unwrap);
-                } catch (\Exception $e) {
-                }
-            },
-            [$request, 'cancel']);
 
-        $request->then(
-            function ($response) use ($promise) {
-                $promise->resolve($this->decodeResponse($response)->result);
+        return $request->then(
+            function ($response) {
+                return $this->decodeResponse($response)->result;
             },
-            function ($exception) use ($promise) {
+            function ($exception) {
                 if ($exception instanceof ClientException) {
                     $response = $this->decodeResponse($exception->getResponse());
-                    $promise->reject(new TelegramException($response->description, $response->error_code, $exception));
+                    throw new TelegramException($response->description, $response->error_code, $exception);
                 } else {
-                    $promise->reject(new TelegramException($exception->getMessage(), $exception->getCode(), $exception));
+                    throw new TelegramException($exception->getMessage(), $exception->getCode(), $exception);
                 }
             }
         );
-
-        return $promise;
     }
 
     /**
