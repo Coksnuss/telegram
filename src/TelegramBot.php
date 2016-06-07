@@ -16,13 +16,21 @@ class TelegramBot
     private $handler;
 
 
-    public function __construct($token, $asyncTimeout = 2, $tick = 0.01)
+    public function __construct($token, $asyncTimeout = 5, $tick = 0.01, $middleware = [])
     {
-        $this->handler = new CurlMultiHandler([
-            'select_timeout' => $tick,
-        ]);
+        $this->handler = new CurlMultiHandler(['select_timeout' => $tick]);
+
+        $handlerStack = HandlerStack::create($this->handler);
+        foreach ($middleware as $name => $handler) {
+            if (is_int($name)) {
+                $handlerStack->push($handler);
+            } else {
+                $handlerStack->push($handler, $name);
+            }
+        }
+
         $this->client = new HttpClient([
-            'handler' => HandlerStack::create($this->handler),
+            'handler' => $handlerStack,
             'base_uri' => $this->getBaseUrl($token),
             'curl' => [CURLOPT_TIMEOUT_MS => $asyncTimeout * 1000],
         ]);
