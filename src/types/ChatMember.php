@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object contains information about one member of a chat.
  */
-class ChatMember
+class ChatMember implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

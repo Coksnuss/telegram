@@ -1,4 +1,3 @@
-
 <?php
 
 namespace TelegramBot\types;
@@ -6,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents a message.
  */
-class Message
+class Message implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

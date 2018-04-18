@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents a video file.
  */
-class Video
+class Video implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

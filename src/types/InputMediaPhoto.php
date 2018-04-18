@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * Represents a photo to be sent.
  */
-class InputMediaPhoto
+class InputMediaPhoto implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

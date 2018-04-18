@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents a portion of the price for goods or services.
  */
-class LabeledPrice
+class LabeledPrice implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * Represents the content of a text message to be sent as the result of an inline query.
  */
-class InputTextMessageContent
+class InputTextMessageContent implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

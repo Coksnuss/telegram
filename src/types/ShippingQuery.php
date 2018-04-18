@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object contains information about an incoming shipping query.
  */
-class ShippingQuery
+class ShippingQuery implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

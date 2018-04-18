@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represent a user's profile pictures.
  */
-class UserProfilePhotos
+class UserProfilePhotos implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

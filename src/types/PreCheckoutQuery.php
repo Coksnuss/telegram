@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object contains information about an incoming pre-checkout query.
  */
-class PreCheckoutQuery
+class PreCheckoutQuery implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

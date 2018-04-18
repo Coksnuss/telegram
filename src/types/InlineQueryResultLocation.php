@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * Represents a location on a map. By default, the location will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the location.
  */
-class InlineQueryResultLocation
+class InlineQueryResultLocation implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

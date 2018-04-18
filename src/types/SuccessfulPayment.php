@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object contains basic information about a successful payment.
  */
-class SuccessfulPayment
+class SuccessfulPayment implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

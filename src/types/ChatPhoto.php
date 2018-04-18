@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents a chat photo.
  */
-class ChatPhoto
+class ChatPhoto implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

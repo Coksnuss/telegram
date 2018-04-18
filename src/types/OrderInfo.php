@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents information about an order.
  */
-class OrderInfo
+class OrderInfo implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

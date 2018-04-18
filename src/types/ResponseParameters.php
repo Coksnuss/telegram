@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * Contains information about why a request was unsuccessful.
  */
-class ResponseParameters
+class ResponseParameters implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

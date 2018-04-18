@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents a voice note.
  */
-class Voice
+class Voice implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

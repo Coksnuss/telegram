@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents a point on the map.
  */
-class Location
+class Location implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

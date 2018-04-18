@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * Contains information about the current status of a webhook.
  */
-class WebhookInfo
+class WebhookInfo implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

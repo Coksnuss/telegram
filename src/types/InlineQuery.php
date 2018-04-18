@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents an incoming inline query. When the user sends an empty query, your bot could return some default or trending results.
  */
-class InlineQuery
+class InlineQuery implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

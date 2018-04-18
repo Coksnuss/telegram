@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * Represents a Game.
  */
-class InlineQueryResultGame
+class InlineQueryResultGame implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

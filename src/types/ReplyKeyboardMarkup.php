@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents a custom keyboard with reply options (see Introduction to bots for details and examples).
  */
-class ReplyKeyboardMarkup
+class ReplyKeyboardMarkup implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * Represents a link to an article or web page.
  */
-class InlineQueryResultArticle
+class InlineQueryResultArticle implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

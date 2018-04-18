@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents one button of an inline keyboard. You must use exactly one of the optional fields.
  */
-class InlineKeyboardButton
+class InlineKeyboardButton implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

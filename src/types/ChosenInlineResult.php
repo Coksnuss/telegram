@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * Represents a result of an inline query that was chosen by the user and sent to their chat partner.
  */
-class ChosenInlineResult
+class ChosenInlineResult implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

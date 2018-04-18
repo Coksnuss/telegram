@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents a venue.
  */
-class Venue
+class Venue implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

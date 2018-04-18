@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * Represents a link to a file. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file. Currently, only .PDF and .ZIP files can be sent using this method.
  */
-class InlineQueryResultDocument
+class InlineQueryResultDocument implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

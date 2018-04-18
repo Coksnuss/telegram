@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * You can provide an animation for your game so that it looks stylish in chats (check out Lumberjack for an example). This object represents an animation file to be displayed in the message containing a game.
  */
-class Animation
+class Animation implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

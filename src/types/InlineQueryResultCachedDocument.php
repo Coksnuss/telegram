@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * Represents a link to a file stored on the Telegram servers. By default, this file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the file.
  */
-class InlineQueryResultCachedDocument
+class InlineQueryResultCachedDocument implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents an audio file to be treated as music by the Telegram clients.
  */
-class Audio
+class Audio implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

@@ -6,8 +6,9 @@ namespace TelegramBot\types;
 /**
  * This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
  */
-class MessageEntity
+class MessageEntity implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents a game. Use BotFather to create and edit games, their short names will act as unique identifiers.
  */
-class Game
+class Game implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

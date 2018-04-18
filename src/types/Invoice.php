@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object contains basic information about an invoice.
  */
-class Invoice
+class Invoice implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

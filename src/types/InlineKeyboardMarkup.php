@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents an inline keyboard that appears right next to the message it belongs to.
  */
-class InlineKeyboardMarkup
+class InlineKeyboardMarkup implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

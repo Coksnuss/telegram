@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * Represents a video to be sent.
  */
-class InputMediaVideo
+class InputMediaVideo implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

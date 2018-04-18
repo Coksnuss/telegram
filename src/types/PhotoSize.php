@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents one size of a photo or a file / sticker thumbnail.
  */
-class PhotoSize
+class PhotoSize implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

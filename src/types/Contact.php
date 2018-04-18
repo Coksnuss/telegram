@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents a phone contact.
  */
-class Contact
+class Contact implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

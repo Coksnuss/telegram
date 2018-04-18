@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents a shipping address.
  */
-class ShippingAddress
+class ShippingAddress implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

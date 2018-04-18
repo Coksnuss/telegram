@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents a general file (as opposed to photos, voice messages and audio files).
  */
-class Document
+class Document implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the venue.
  */
-class InlineQueryResultVenue
+class InlineQueryResultVenue implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents one row of the high scores table for a game.
  */
-class GameHighScore
+class GameHighScore implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

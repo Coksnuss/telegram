@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents a video message (available in Telegram apps as of v.4.0).
  */
-class VideoNote
+class VideoNote implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents a Telegram user or bot.
  */
-class User
+class User implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**

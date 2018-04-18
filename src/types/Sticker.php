@@ -5,8 +5,9 @@ namespace TelegramBot\types;
 /**
  * This object represents a sticker.
  */
-class Sticker
+class Sticker implements \JsonSerializable
 {
+    use SerializeTrait;
     use FactoryTrait;
 
     /**
