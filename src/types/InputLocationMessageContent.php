@@ -5,7 +5,7 @@ namespace TelegramBot\types;
 /**
  * Represents the content of a location message to be sent as the result of an inline query.
  */
-class InputLocationMessageContent implements \JsonSerializable
+class InputLocationMessageContent extends InputMessageContent implements \JsonSerializable
 {
     use SerializeTrait;
     use FactoryTrait;
