@@ -238,6 +238,26 @@ class TelegramBot
         return $this->_setWebhook($params, true);
     }
 
+    public function deleteWebhook()
+    {
+        return $this->_deleteWebhook(false);
+    }
+
+    public function deleteWebhookAsync()
+    {
+        return $this->_deleteWebhook(true);
+    }
+
+    public function getWebhookInfo()
+    {
+        return $this->_getWebhookInfo(false);
+    }
+
+    public function getWebhookInfoAsync()
+    {
+        return $this->_getWebhookInfo(true);
+    }
+
     public function getFile($fileId)
     {
         return $this->_getFile($fileId, false);
@@ -502,6 +522,16 @@ class TelegramBot
     private function _setWebhook($params, $async)
     {
         return $this->request('setWebhook', $params, $async);
+    }
+
+    private function _deleteWebhook($async)
+    {
+        return $this->request('deleteWebhook', [], $async);
+    }
+
+    private function _getWebhookInfo($async)
+    {
+        return $this->request('getWebhookInfo', [], $async);
     }
 
     private function _getFile($fileId, $async)
